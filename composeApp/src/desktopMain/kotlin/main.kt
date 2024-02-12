@@ -1,18 +1,31 @@
-import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.runtime.Composable
-import xyz.brainforce.brainforce.api.service.runMain
-import xyz.brainforce.brainforce.ui.App
+import brainflow.BoardShim
+import brainflow.LogLevels
+import org.koin.core.context.startKoin
+import org.koin.ksp.generated.module
+import xyz.brainforce.brainforce.api.config.AppConfig
+import xyz.brainforce.brainforce.api.data.file.BrainforceConfig
+import xyz.brainforce.brainforce.api.data.file.FileReference
+import xyz.brainforce.brainforce.api.service.ConnectionService
+import xyz.brainforce.brainforce.api.service.FileService
+import kotlin.time.Duration.Companion.seconds
 
-fun main() = runMain()
+fun main() {
+    val app = startKoin {
+        modules(AppConfig().module)
+    }
 
-//        = application {
-//    Window(onCloseRequest = ::exitApplication, title = "Brainforce") {
-//        App()
-//    }
-//}
+    val file = app.koin.get<FileService>()
+    val config = BrainforceConfig()
+    val bfiConfig = file
+        .loadFile(FileReference.MainConfig, BrainforceConfig.serializer(), config)
+    val shim = bfiConfig.asBoardShim()
+    val service = app.koin.get<ConnectionService>()
+    val debug = true
 
-@Preview
-@Composable
-fun AppDesktopPreview() {
-    App()
+    if (debug) {
+        BoardShim.set_log_level(LogLevels.LEVEL_DEBUG)
+    }
+
+    service.enable(shim, bfiConfig.timeout.seconds)
+    Thread.currentThread().join()
 }
