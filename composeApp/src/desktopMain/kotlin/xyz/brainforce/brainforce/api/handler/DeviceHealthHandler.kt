@@ -33,6 +33,8 @@ class DeviceHealthHandler(
             true
         } catch (e: BrainFlowError) {
             lifeCycle.runErrorEvent("Connection failed...")
+        } catch (e: IndexOutOfBoundsException) {
+            lifeCycle.runErrorEvent("Failed to open board timestamp data channel...")
         }
     }
 }
