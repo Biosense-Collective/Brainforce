@@ -23,6 +23,7 @@ data class BrainforceConfig(
     var windowSeconds: Int = 2,
     var refreshRate: Int = 60,
     var emaDecay: Float = 1f,
+    var debug: Boolean = false,
 ) : FileLayout {
 
     fun asBrainflowParams(): BrainFlowInputParams = BrainFlowInputParams().also {
