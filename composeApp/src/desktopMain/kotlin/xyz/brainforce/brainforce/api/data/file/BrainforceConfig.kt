@@ -1,13 +1,15 @@
 package xyz.brainforce.brainforce.api.data.file
 
 import brainflow.BoardIds
+import brainflow.BoardShim
 import brainflow.BrainFlowInputParams
 import kotlinx.serialization.Serializable
 import xyz.brainforce.brainforce.api.data.IpProtocol
+import kotlin.math.min
 
 @Serializable
 data class BrainforceConfig(
-    var timeout: Int = 0,
+    var timeout: Int = 5,
     var ipPort: Int = 0,
     var protocol: IpProtocol = IpProtocol.UDP,
     var ipAddress: String = "",
@@ -30,9 +32,14 @@ data class BrainforceConfig(
         it.ip_address = ipAddress
         it.ip_protocol = protocol.value
         it.ip_port = ipPort
-        it.timeout = timeout
+        it.timeout = min(timeout, 3)
         it.file = file
         it.other_info = otherInfo
         it.master_board = boardId
     }
+
+    fun asBoardShim(): BoardShim = BoardShim(
+        boardId,
+        asBrainflowParams()
+    )
 }
