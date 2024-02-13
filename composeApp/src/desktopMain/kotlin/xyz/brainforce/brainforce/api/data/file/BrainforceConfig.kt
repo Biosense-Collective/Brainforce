@@ -24,6 +24,7 @@ data class BrainforceConfig(
     var refreshRate: Int = 60,
     var emaDecay: Float = 1f,
     var debug: Boolean = false,
+    var oscPort: Int = 9000,
 ) : FileLayout {
 
     fun asBrainflowParams(): BrainFlowInputParams = BrainFlowInputParams().also {
