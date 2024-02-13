@@ -1,4 +1,4 @@
-package xyz.brainforce.brainforce.provider
+package xyz.brainforce.brainforce.api.provider
 
 import com.illposed.osc.transport.OSCPortOut
 import org.koin.core.annotation.Singleton
