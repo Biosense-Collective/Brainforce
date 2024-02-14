@@ -3,12 +3,14 @@ package xyz.brainforce.brainforce.api.handler
 import brainflow.BoardShim
 import brainflow.BrainFlowError
 import kotlinx.coroutines.delay
+import org.koin.core.annotation.Singleton
 import xyz.brainforce.brainforce.api.action.DeviceDiscovery
 import xyz.brainforce.brainforce.api.util.Logger
 import kotlin.time.Duration
 
+@Singleton
 class DeviceDiscoveryHandler(
-    private val lifeCycle: DeviceLifeCycleHandlers = DeviceLifeCycleHandlers(),
+    private val lifeCycle: DeviceLifeCycleHandlers,
 ) : DeviceDiscovery {
 
     override suspend fun discover(board: BoardShim, time: Duration): Boolean = try {

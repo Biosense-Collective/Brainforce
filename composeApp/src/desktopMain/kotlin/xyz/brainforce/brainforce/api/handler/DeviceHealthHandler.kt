@@ -2,11 +2,15 @@ package xyz.brainforce.brainforce.api.handler
 
 import brainflow.BoardShim
 import brainflow.BrainFlowError
+import org.koin.core.annotation.Singleton
 import xyz.brainforce.brainforce.api.action.DeviceHealthCheck
+import xyz.brainforce.brainforce.api.provider.BoardChannelProvider
 import xyz.brainforce.brainforce.api.util.Logger
 
+@Singleton
 class DeviceHealthHandler(
-    private val lifeCycle: DeviceLifeCycleHandlers = DeviceLifeCycleHandlers()
+    private val lifeCycle: DeviceLifeCycleHandlers,
+    private val boardChannels: BoardChannelProvider,
 ) : DeviceHealthCheck {
 
     private var timestamp = 0.0
@@ -20,7 +24,7 @@ class DeviceHealthHandler(
         }
 
         return try {
-            val idx = BoardShim.get_timestamp_channel(board.board_id)
+            val idx = boardChannels.timestampChannel()
             val newTimestamp = board.get_current_board_data(1)[idx][0]
 
             if (newTimestamp == timestamp) {

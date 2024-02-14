@@ -16,12 +16,4 @@ class ConnectionConfig {
     @Singleton
     fun lifecycleHandlers(): DeviceLifeCycleHandlers =
         DeviceLifeCycleHandlers()
-
-    @Factory
-    fun discovery(handlers: DeviceLifeCycleHandlers): DeviceDiscovery =
-        DeviceDiscoveryHandler(handlers)
-
-    @Factory
-    fun healthCheck(handlers: DeviceLifeCycleHandlers): DeviceHealthCheck =
-        DeviceHealthHandler(handlers)
 }
