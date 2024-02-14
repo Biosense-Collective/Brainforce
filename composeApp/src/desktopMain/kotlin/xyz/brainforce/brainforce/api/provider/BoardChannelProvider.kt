@@ -35,8 +35,13 @@ class BoardChannelProvider(
     fun ppgChannels(): IntArray = BoardShim
         .get_ppg_channels(boardId)
 
-    fun batteryChannel(): Int = BoardShim
-        .get_battery_channel(boardId)
+    fun batterySupported(): Boolean = BoardShim
+        .get_board_descr(Map::class.java, boardId)["battery_channel"] != null
+
+    fun batteryChannel(): Int? = when (batterySupported()) {
+        true -> BoardShim.get_battery_channel(boardId)
+        else -> null
+    }
 
     fun samplingRate(): Int = BoardShim
         .get_sampling_rate(boardId)
