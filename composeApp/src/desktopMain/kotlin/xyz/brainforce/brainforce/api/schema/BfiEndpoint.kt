@@ -6,5 +6,5 @@ sealed class BfiEndpoint(
     endpoint: String,
     val type: ParameterType,
 ) {
-    val endpoint: String = "/avatar/parameter/BFI/$endpoint"
+    val endpoint: String = "/avatar/parameters/BFI/$endpoint"
 }

@@ -25,6 +25,7 @@ data class BrainforceConfig(
     var emaDecay: Float = 1f,
     var debug: Boolean = false,
     var oscPort: Int = 9000,
+    val fftSize: Int = 2048,
 ) : FileLayout {
 
     fun asBrainflowParams(): BrainFlowInputParams = BrainFlowInputParams().also {
