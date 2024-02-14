@@ -21,17 +21,15 @@ class Brainforce(
 
         val bfiConfig = bfiConfigManager
             .getConfig()
-            .also(::enableConnectionService)
+
         if (bfiConfig.debug) {
             Logger.setLevel(LogLevels.LEVEL_DEBUG)
         }
 
+        connectionService.enable()
         logger.info("Brainforce started!")
         Thread.currentThread().join()
     }
-
-    private fun enableConnectionService(config: BrainforceConfig) = connectionService
-        .enable(config.asBoardShim(), config.timeout.seconds)
 
     companion object {
 
